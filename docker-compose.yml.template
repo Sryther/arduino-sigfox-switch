@@ -1,0 +1,49 @@
+version: "2"
+services:
+  web:
+    build: ./web
+    expose:
+      - 4200
+    environment:
+      - VIRTUAL_HOST=<host>
+      - VIRTUAL_PORT=4200
+      - LETSENCRYPT_HOST=<host>
+      - LETSENCRYPT_EMAIL=<email>
+      - BACKEND_URL=<url>
+      - CALLBACKS_URL=<url>
+      - TITLE=<title>
+      - PROD=true
+    restart: always
+  server:
+    build: ./server
+    expose:
+      - 8000
+    environment:
+      - VIRTUAL_HOST=<host>
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=<host>
+      - LETSENCRYPT_EMAIL=<email>
+    links:
+      - mongo:db
+    restart: always
+  callbacks:
+    build: ./callbacks
+    links:
+      - mongo:db
+    volumes:
+      - <volume>:/data/db
+    environment:
+      - DEBUG=1
+      - DATABASE_URL=mongodb://db:27017/sigfox-callbacks
+      - PORT=8080
+      - VIRTUAL_HOST=<host>
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=<host>
+      - LETSENCRYPT_EMAIL=<email>
+
+    restart: always
+  mongo:
+    image: mongo:3.4
+    expose:
+      - 27017
+    restart: always

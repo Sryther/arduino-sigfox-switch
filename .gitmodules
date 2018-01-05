@@ -1,0 +1,12 @@
+[submodule "arduino"]
+	path = arduino
+	url = git@github.com:Sryther/arduino-sigfox-switch-arduino.git
+[submodule "web"]
+	path = web
+	url = git@github.com:Sryther/arduino-sigfox-switch-web.git
+[submodule "server"]
+	path = server
+	url = git@github.com:Sryther/arduino-sigfox-switch-server.git
+[submodule "callbacks"]
+	path = callbacks
+	url = git@github.com:Sryther/sigfox-nodejs-callbacks.git
